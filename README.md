@@ -25,7 +25,7 @@ Here is an example of how a typical car and non-car example looks in 3 different
 
 The HUV and YCrCb colorspaces seem to visually have more separation in the 3 channels compared to RGB. So I experimented with these.
 
-I found that just using color histogram features was pretty good in terms of accuracy (97%), adding HoG features improved the accuracy on an held-out test set to 98.8% - 99% (for both HSV and YCrCb).
+I found that just using color histogram features was pretty good in terms of accuracy (97%), adding HoG features improved the accuracy on an held-out test set to 98.8% - 99%. Both HSV and YCrCb colorspaces gave similar results.
 
 Totally I was using 8460 features. 
 
@@ -33,13 +33,9 @@ Totally I was using 8460 features.
 
 The code for this step is contained in the code cell #3 of the IPython notebook, function `extract_hog_features()`.
 
+For HoG parameters, I used `orientations=9`, `pixels_per_cell=(8, 8)` and `cells_per_block=(2, 2)`. The test set prediction accuracy seemed pretty good I did not explore other choices here. 
 
-![alt text][image2]
-
-and HOG parameters of `orientations=9`, `pixels_per_cell=(8, 8)` and `cells_per_block=(2, 2)`:
-
-For HoG parameters, I used `orientations=9`, `pixels_per_cell=(8, 8)` and `cells_per_block=(2, 2)`. Given that the prediction accuracy seemed pretty good I did not explore other choices here. 
-
+As mentioned above, adding HoG features to color space feature helped improve accuracy by about 2% points.
 
 *Classifier parameters*: I trained a linear SVM using `scikit.svm.LinearSVC`. SVMs give a good tradeoff between accuracy and speed, and from the data that I used for training and testing, I got 99% test set accuracy. I varied the parameter C, using grid search. And found that the regularization parameter C = [10, 100] to provide best test set accuracy.
 
