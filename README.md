@@ -35,7 +35,6 @@ Here is an example using the `YCrCb` color space and HOG parameters of `orientat
 
 ![alt text][image2]
 
-
 For HoG parameters, I used `orientations=9`, `pixels_per_cell=(8, 8)` and `cells_per_block=(2, 2)`. Given that the prediction accuracy seemed pretty good I did not explore other choices here. 
 
 
