@@ -25,7 +25,7 @@ Here is an example of how a typical car looks in 3 different colorspaces (top ro
 ![Example car][CarImg]
 ![Example car colors][CarColorspace]
 
-<br/>
+
 An example non car image and colorspace representation: 
 ![Example non-car][NoncarImg]
 ![Example non-car colors][NoncarColorspace]
