@@ -1,7 +1,9 @@
 # Vehicle Detection Project
 
 [//]: # (Image References)
-[CarColorspace]: ./images/car-example-colorspaces.png
+[CarImg]: ./images/car-example-colorspaces.png
+[CarColorspace]: ./images/car-colorspaces.png
+[NoncarImg]: ./images/noncar-img.png
 [NoncarColorspace]: ./images/noncar-example-colorspaces.png 
 
 In this project, I implemented a classification, detection and tracking pipeline for identifying cars. Main steps:
@@ -19,8 +21,13 @@ In this project, I implemented a classification, detection and tracking pipeline
 
 I first explored different color spaces.
 
-Here is an example of how a typical car and non-car example looks in 3 different colorspaces.
+Here is an example of how a typical car looks in 3 different colorspaces (top row YCrCb, middle RGB and bottom HSV)
+![Example car][CarImg]
 ![Example car][CarColorspace]
+
+<br/>
+An example non car image and colorspace representation: <br/>
+![Example non-car][NoncarImg]
 ![Example non-car][NoncarColorspace]
 
 The HUV and YCrCb colorspaces seem to visually have more separation in the 3 channels compared to RGB. So I experimented with these.
