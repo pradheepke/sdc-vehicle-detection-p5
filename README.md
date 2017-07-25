@@ -5,13 +5,17 @@
 [CarColorspace]: ./images/car-colorspaces.png
 [NoncarImg]: ./images/noncar-img.png
 [NoncarColorspace]: ./images/noncar-example-colorspaces.png 
+[BeforeTracking]: ./images/before-tracking 
+[AfterTracking]: ./images/after-tracking
+[LotOfFP]: ./images/lot_of_fp.png
+[Heatmap2]: ./images/heatmap2.png
+[AfterHeatmap]: ./images/afterheatmap.png
 
 In this project, I implemented a classification, detection and tracking pipeline for identifying cars. Main steps:
  - Feature extraction
  - Classification model training and evaluation
  - Sliding window search to do detection
  - Tracking to help improve the accuracy by removing some false positives
-
 
 ## Details
 ### Feature extraction
@@ -25,7 +29,6 @@ Here is an example of how a typical car looks in 3 different colorspaces (top ro
 ![Example car][CarImg]
 ![Example car colors][CarColorspace]
 
-
 An example non car image and colorspace representation: 
 ![Example non-car][NoncarImg]
 ![Example non-car colors][NoncarColorspace]
@@ -36,7 +39,7 @@ I found that just using color histogram features was pretty good in terms of acc
 
 Totally I was using 8460 features. 
 
-### Histogram of Oriented Gradients (HOG), Classification
+### Histogram of Oriented Gradients (HOG)
 
 The code for this step is contained in the code cell #3 of the IPython notebook, function `extract_hog_features()`.
 
@@ -44,22 +47,11 @@ For HoG parameters, I used `orientations=9`, `pixels_per_cell=(8, 8)` and `cells
 
 As mentioned above, adding HoG features to color space feature helped improve accuracy by about 2% points.
 
-*Classifier parameters*: I trained a linear SVM using `scikit.svm.LinearSVC`. SVMs give a good tradeoff between accuracy and speed, and from the data that I used for training and testing, I got 99% test set accuracy. I varied the parameter C, using grid search. And found that the regularization parameter C = [10, 100] to provide best test set accuracy.
+### Classification
+I trained a linear SVM using `scikit.svm.LinearSVC`. SVMs give a good tradeoff between accuracy and speed, and from the data that I used for training and testing, I got 99% test set accuracy. I picked a randomly selected 30% of the data for test and used it for accuracy measurement. I varied the parameter C, using grid search. And found that the regularization parameter C = [10, 100] to provide best test set accuracy. 
 
 ### Sliding Window Search
-
-The sliding window search is implemented in the `find_cars(...)` function. The main brunt of the work here is doing this efficiently by doing the sliding window on the HoG feature map instead of cropping on the original image and then calling HoG extractor multiple times. HoG returns a feature map that is structured as an n-dimensional array like: (block_x, block_y, cell_pos_in_block_x, cell_pos_in_block_y, orientation_bin). To map feature map to original image, we need to do some arithmetic to translate the block co-ordinates to pixel co-ordinates. Bulk of the `find_cars` code is doing this translation. Once we do extract the hog features, we crop the image and compute color histograms and spatial binning features (we could possibly make this also more efficient in a future iteration). I just used one scale: 64 pixels in this iteration. I would like to try one more higher scale (say, 96) to catch larger cars and one smaller (say 32) to catch cars in the distance.
- 
-![alt text][image3]
-
-Some example test images showing it is working:
-
-![alt text][image4]
----
-
-### Video Implementation
-
-This is the final [link to my video result](./project_video.mp4).
+The sliding window search is implemented in the `find_cars(...)` function. The main brunt of the work here is doing this efficiently by doing the sliding window on the HoG feature map instead of cropping on the original image and then calling HoG extractor multiple times. HoG returns a feature map that is structured as an n-dimensional array like: (block_x, block_y, cell_pos_in_block_x, cell_pos_in_block_y, orientation_bin). To map feature map to original image, we need to do some arithmetic to translate the block co-ordinates to pixel co-ordinates. Bulk of the `find_cars` code is doing this translation. Once we do extract the hog features, we crop the image and compute color histograms and spatial binning features (we could possibly make this also more efficient in a future iteration). I just used one scale: 64 pixels in this iteration. Given more time, I would have liked to try one more higher scale (say, 96) to catch larger cars and one smaller (say 32) to catch cars in the distance.
 
 ### Heatmaps and voting to reduce false positives and reducing multiple overlapping detections
 
@@ -67,13 +59,29 @@ To address duplicates and false positives, I used the heatmap + voting technique
 
 I then used `scipy.ndimage.measurements.label()` to identify individual blobs and constructed smallest bounding rectangles to cover the area of each blob detected.
 
-### Tracking
-Even after this there was a fair amount of false positives, as seen in this short clip:
+Before applying heatmaps, lots of false positives and duplicate overlapping detections
+![Lot of FP][LotOfFP]
 
+After applying the method described above, we see much better result:
+![After][Heatmap2]
+
+Another example:
+![another example][AfterHeatmap]
+
+### Tracking
+Even after this there was a fair amount of false positives, as seen in this [short clip](./videos/).
 
 I implemented a basic tracking method: look back last N frames, and look for overlapping boxes (after the heatmap integration is done) in the last N frames. Only keep those boxes that have some amount of overlap with at least one box in the last N frames. This method is implemented with the method `process_img_with_tracking()`. The helper function `area_intersection` is used to determine if two boxes overlap or not. This helps in reducing the number of false positives significantly as well, and helped produce the final video. 
 
----
+An example scene with false positives before tracking:
+![Before tracking][BeforeTracking]
+
+After applying tracking:
+![After tracking][AfterTracking]
+
+### Video Implementation
+
+This is the final [link to my video result](./videos/project_video.mp4).
 
 ### Discussion
 
