@@ -1,6 +1,8 @@
 # Vehicle Detection Project
 
 [//]: # (Image References)
+[CarColorspace]: ./images/car-example-colorspaces.png
+[NoncarColorspace]: ./images/noncar-example-colorspaces.png 
 
 In this project, I implemented a classification, detection and tracking pipeline for identifying cars. Main steps:
  - Feature extraction
@@ -15,7 +17,15 @@ In this project, I implemented a classification, detection and tracking pipeline
  - I used HoG features. In terms of parameters, I stuck to one set only here, which seems to be commonly used in literature. I kept cells_per_block = 2, pixels_per_cell = 8, orientations = 9. 
  - I also added features from spatial binning, set at size 32 x 32.
 
-I found that just using color histogram features was pretty good in terms of accuracy (97%), adding HoG features improved the accuracy on an held-out test set to 99%. 
+I first explored different color spaces.
+
+Here is an example of how a typical car and non-car example looks in 3 different colorspaces.
+![Example car][CarColorspace]
+![Example non-car][NoncarColorspace]
+
+The HUV and YCrCb colorspaces seem to visually have more separation in the 3 channels compared to RGB. So I experimented with these.
+
+I found that just using color histogram features was pretty good in terms of accuracy (97%), adding HoG features improved the accuracy on an held-out test set to 98.8% - 99% (for both HSV and YCrCb).
 
 Totally I was using 8460 features. 
 
@@ -23,18 +33,10 @@ Totally I was using 8460 features.
 
 The code for this step is contained in the code cell #3 of the IPython notebook, function `extract_hog_features()`.
 
-I started by reading in all the `vehicle` and `non-vehicle` images.  Here is an example of one of each of the `vehicle` and `non-vehicle` classes:
-
-![alt text][image1]
-
-TODO
-
-I then explored different color spaces and different `skimage.hog()` parameters (`orientations`, `pixels_per_cell`, and `cells_per_block`).  I grabbed random images from each of the two classes and displayed them to get a feel for what the `skimage.hog()` output looks like.
-
-Here is an example using the `YCrCb` color space and HOG parameters of `orientations=9`, `pixels_per_cell=(8, 8)` and `cells_per_block=(2, 2)`:
 
 ![alt text][image2]
 
+and HOG parameters of `orientations=9`, `pixels_per_cell=(8, 8)` and `cells_per_block=(2, 2)`:
 
 For HoG parameters, I used `orientations=9`, `pixels_per_cell=(8, 8)` and `cells_per_block=(2, 2)`. Given that the prediction accuracy seemed pretty good I did not explore other choices here. 
 
