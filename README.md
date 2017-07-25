@@ -23,12 +23,12 @@ I first explored different color spaces.
 
 Here is an example of how a typical car looks in 3 different colorspaces (top row YCrCb, middle RGB and bottom HSV)
 ![Example car][CarImg]
-![Example car][CarColorspace]
+![Example car colors][CarColorspace]
 
 <br/>
-An example non car image and colorspace representation: <br/>
+An example non car image and colorspace representation: 
 ![Example non-car][NoncarImg]
-![Example non-car][NoncarColorspace]
+![Example non-car colors][NoncarColorspace]
 
 The HUV and YCrCb colorspaces seem to visually have more separation in the 3 channels compared to RGB. So I experimented with these.
 
