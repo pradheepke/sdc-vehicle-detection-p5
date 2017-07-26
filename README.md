@@ -51,9 +51,9 @@ For HoG parameters, I used `orientations=9`, `pixels_per_cell=(8, 8)` and `cells
 As mentioned above, adding HoG features to color space feature helped improve accuracy by about 2% points.
 
 HoG feature visualization for the car image above in 3 different color spaces. The RGB channels have least variation.
-[!HOG RGB][HogRgb]
-[!HOG HSV][HogHSV]
-[!HOG YCrCb][HogYCrCb]
+![HOG RGB][HogRgb]
+![HOG HSV][HogHSV]
+![HOG YCrCb][HogYCrCb]
 
 
 ### Classification
