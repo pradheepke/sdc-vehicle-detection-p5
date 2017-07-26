@@ -4,9 +4,9 @@
 [CarImg]: ./images/car-example-colorspaces.png
 [CarColorspace]: ./images/car-colorspaces.png
 [NoncarImg]: ./images/noncar-img.png
-[NoncarColorspace]: ./images/noncar-example-colorspaces.png 
-[BeforeTracking]: ./images/before-tracking 
-[AfterTracking]: ./images/after-tracking
+[NoncarColorspace]: ./images/noncar-example-colorspaces.png
+[BeforeTracking]: ./images/before-tracking.png
+[AfterTracking]: ./images/after-tracking.png
 [LotOfFP]: ./images/lot_of_fp.png
 [Heatmap2]: ./images/heatmap2.png
 [AfterHeatmap]: ./images/afterheatmap.png
