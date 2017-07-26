@@ -48,10 +48,6 @@ Totally I was using 8460 features.
 
 The code for this step is contained in the code cell #3 of the IPython notebook, function `extract_hog_features()`.
 
-For HoG parameters, I used `orientations=9`, `pixels_per_cell=(8, 8)` and `cells_per_block=(2, 2)`. The test set prediction accuracy seemed pretty good I did not explore other choices here. 
-
-As mentioned above, adding HoG features to color space feature helped improve accuracy by about 2% points.
-
 HoG feature visualization for the car image above in 3 different color spaces. The RGB channels have least variation.
 ![HOG RGB][HogRgb]
 ![HOG HSV][HogHSV]
@@ -59,11 +55,13 @@ HoG feature visualization for the car image above in 3 different color spaces. T
 
 I tried different parameters for HoG. Decreasing pixels per cell makes the representation more fine grained. Increasing number of orientations can make it more fine grained. 
 
-8 pixels per cell, increasing number of orientations (4,9,20,40)
+8 pixels per cell, increasing number of orientations (4,9,20,40):
 ![HOG 8][HOG8]
 
-4 pixels per cell, increasing number of orientations (4,9,20,40)
+4 pixels per cell, increasing number of orientations (4,9,20,40):
 ![HOG 4][HOG4]
+
+It's a balance between number of parameters and representation power. I used `orientations=9`, `pixels_per_cell=(8, 8)` and `cells_per_block=(2, 2)`. The test set prediction accuracy seemed pretty good -- improved accuracy by 2% to 99%.
 
 
 ### Classification
