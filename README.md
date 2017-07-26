@@ -13,6 +13,8 @@
 [HogRgb]: ./images/hog_rgb.png
 [HogYCrCb]: ./images/hog_ycrcb.png
 [HogHSV]: ./images/hog_hsv.png
+[Hog4]: ./images/hog_4pix.png
+[Hog8]: ./images/hog_8pix.png
 
 In this project, I implemented a classification, detection and tracking pipeline for identifying cars. Main steps:
  - Feature extraction
@@ -54,6 +56,14 @@ HoG feature visualization for the car image above in 3 different color spaces. T
 ![HOG RGB][HogRgb]
 ![HOG HSV][HogHSV]
 ![HOG YCrCb][HogYCrCb]
+
+I tried different parameters for HoG. Decreasing pixels per cell makes the representation more fine grained. Increasing number of orientations can make it more fine grained. 
+
+8 pixels per cell, increasing number of orientations (4,9,20,40)
+![HOG 8][HOG8]
+
+4 pixels per cell, increasing number of orientations (4,9,20,40)
+![HOG 4][HOG4]
 
 
 ### Classification
