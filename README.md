@@ -10,6 +10,9 @@
 [LotOfFP]: ./images/lot_of_fp.png
 [Heatmap2]: ./images/heatmap2.png
 [AfterHeatmap]: ./images/afterheatmap.png
+[HogRgb]: ./images/hog_rgb.png
+[HogYCrCb]: ./images/hog_ycrcb.png
+[HogHSV]: ./images/hog_hsv.png
 
 In this project, I implemented a classification, detection and tracking pipeline for identifying cars. Main steps:
  - Feature extraction
@@ -47,6 +50,12 @@ For HoG parameters, I used `orientations=9`, `pixels_per_cell=(8, 8)` and `cells
 
 As mentioned above, adding HoG features to color space feature helped improve accuracy by about 2% points.
 
+HoG feature visualization for the car image above in 3 different color spaces. The RGB channels have least variation.
+[!HOG RGB][HogRgb]
+[!HOG HSV][HogHSV]
+[!HOG YCrCb][HogYCrCb]
+
+
 ### Classification
 I trained a linear SVM using `scikit.svm.LinearSVC`. SVMs give a good tradeoff between accuracy and speed, and from the data that I used for training and testing, I got 99% test set accuracy. I picked a randomly selected 30% of the data for test and used it for accuracy measurement. I varied the parameter C, using grid search. And found that the regularization parameter C = [10, 100] to provide best test set accuracy. 
 
@@ -70,6 +79,8 @@ Another example:
 
 ### Tracking
 Even after this there was a fair amount of false positives, as seen in this [short clip](./videos/).
+
+I tried filtering out from the model prediction, trying thresholding based on the decision function using `svc.decision_function()` but that wasn't helpful.
 
 I implemented a basic tracking method: look back last N frames, and look for overlapping boxes (after the heatmap integration is done) in the last N frames. Only keep those boxes that have some amount of overlap with at least one box in the last N frames. This method is implemented with the method `process_img_with_tracking()`. The helper function `area_intersection` is used to determine if two boxes overlap or not. This helps in reducing the number of false positives significantly as well, and helped produce the final video. 
 
