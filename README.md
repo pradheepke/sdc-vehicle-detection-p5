@@ -70,6 +70,8 @@ I trained a linear SVM using `scikit.svm.LinearSVC`. SVMs give a good tradeoff b
 ### Sliding Window Search
 The sliding window search is implemented in the `find_cars(...)` function. The main brunt of the work here is doing this efficiently by doing the sliding window on the HoG feature map instead of cropping on the original image and then calling HoG extractor multiple times. HoG returns a feature map that is structured as an n-dimensional array like: (block_x, block_y, cell_pos_in_block_x, cell_pos_in_block_y, orientation_bin). To map feature map to original image, we need to do some arithmetic to translate the block co-ordinates to pixel co-ordinates. Bulk of the `find_cars` code is doing this translation. Once we do extract the hog features, we crop the image and compute color histograms and spatial binning features (we could possibly make this also more efficient in a future iteration). I just used one scale: 64 pixels in this iteration. Given more time, I would have liked to try one more higher scale (say, 96) to catch larger cars and one smaller (say 32) to catch cars in the distance.
 
+I experimented with the parameter cells_per_step. I reduced it to 1 cell per step from 2. This improved the recall but with a few more false positives. With the techniques later (heatmaps and tracking), I was able to keep the false positives under control and increasing recall.
+
 ### Heatmaps and voting to reduce false positives and reducing multiple overlapping detections
 
 To address duplicates and false positives, I used the heatmap + voting technique. That is, count number of detected boxes each pixel is part of, and keep only pixels that were part of more than 1 box. 
@@ -100,7 +102,7 @@ After applying tracking:
 
 ### Video Implementation
 
-This is the final [link to my video result](./videos/project_video_out_full_tracking_1.mp4).
+This is the final [link to my video result](./videos/project_video_out_full_tracking_2.mp4).
 
 ### Discussion
 
