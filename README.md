@@ -5,8 +5,8 @@
 [CarColorspace]: ./images/car-colorspaces.png
 [NoncarImg]: ./images/noncar-img.png
 [NoncarColorspace]: ./images/noncar-example-colorspaces.png
-[BeforeTracking]: ./images/before-tracking.png
-[AfterTracking]: ./images/after-tracking.png
+[AfterTracking]: ./images/before-tracking.png
+[BeforeTracking]: ./images/after-tracking.png
 [LotOfFP]: ./images/lot_of_fp.png
 [Heatmap2]: ./images/heatmap2.png
 [AfterHeatmap]: ./images/afterheatmap.png
@@ -24,7 +24,7 @@ In this project, I implemented a classification, detection and tracking pipeline
 
 ## Details
 ### Feature extraction
- - I used color histogram binning using 32 bins for each color channel. I used the HSV color space. 
+ - I used color histogram binning using 32 bins for each color channel. I used the YCrCb color space. 
  - I used HoG features. In terms of parameters, I stuck to one set only here, which seems to be commonly used in literature. I kept cells_per_block = 2, pixels_per_cell = 8, orientations = 9. 
  - I also added features from spatial binning, set at size 32 x 32.
 
@@ -67,6 +67,11 @@ It's a balance between number of parameters and representation power. I used `or
 ### Classification
 I trained a linear SVM using `scikit.svm.LinearSVC`. SVMs give a good tradeoff between accuracy and speed, and from the data that I used for training and testing, I got 99% test set accuracy. I picked a randomly selected 30% of the data for test and used it for accuracy measurement. I varied the parameter C, using grid search. And found that the regularization parameter C = [10, 100] to provide best test set accuracy. 
 
+Thanks to a reviewer's comment, I tried a lower setting of C=0.001, in an attempt to get more generalizability.
+
+I also noticed a lot of false positives in the project video which is quite different from the training data we were given. So, I took a few test images (not from the video, just the 6 test images that were given) and extracted random 64x64 windows from the image and added them as negatives. I manually selected a triangle window from one image, did not carefully set it for all images. I added about 3000 images to a set of about 8000 non-vehicle images. So, finally, I had 8k cars, 11k non-cars -- 3k coming from the 6 test images. This data augmentation (see accompanying `DataAugment.iPynb` for details) was critical to significantly reduce false positives.
+
+
 ### Sliding Window Search
 The sliding window search is implemented in the `find_cars(...)` function. The main brunt of the work here is doing this efficiently by doing the sliding window on the HoG feature map instead of cropping on the original image and then calling HoG extractor multiple times. HoG returns a feature map that is structured as an n-dimensional array like: (block_x, block_y, cell_pos_in_block_x, cell_pos_in_block_y, orientation_bin). To map feature map to original image, we need to do some arithmetic to translate the block co-ordinates to pixel co-ordinates. Bulk of the `find_cars` code is doing this translation. Once we do extract the hog features, we crop the image and compute color histograms and spatial binning features (we could possibly make this also more efficient in a future iteration). I just used one scale: 64 pixels in this iteration. Given more time, I would have liked to try one more higher scale (say, 96) to catch larger cars and one smaller (say 32) to catch cars in the distance.
 
@@ -102,7 +107,7 @@ After applying tracking:
 
 ### Video Implementation
 
-This is the final [link to my video result](./videos/project_video_out_full_tracking_2.mp4).
+This is the final [link to my video result](./videos/project_video_out_full_tracking_3_YCrCb.mp4).
 
 ### Discussion
 
